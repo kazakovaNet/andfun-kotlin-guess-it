@@ -55,6 +55,7 @@ class GameFragment : Fragment() {
 
         binding.skipButton.setOnClickListener { viewModel.onSkip() }
 
+        /** Setting up LiveData observation relationship **/
         viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
         })
