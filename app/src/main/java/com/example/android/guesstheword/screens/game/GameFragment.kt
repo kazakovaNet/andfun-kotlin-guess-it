@@ -17,6 +17,7 @@
 package com.example.android.guesstheword.screens.game
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,21 +65,19 @@ class GameFragment : Fragment() {
             binding.wordText.text = newWord
         })
 
+        viewModel.currentTime.observe(viewLifecycleOwner, Observer { currentTime ->
+            binding.timerText.text = DateUtils.formatElapsedTime(currentTime)
+        })
+
+        // Sets up event listening to navigate the player when the game is finished
         viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer { hasFinish ->
             if (hasFinish) {
-                gameFinished()
+                val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
+                findNavController(this).navigate(action)
                 viewModel.onGameFinishComplete()
             }
         })
 
         return binding.root
-    }
-
-    /**
-     * Called when the game is finished
-     */
-    fun gameFinished() {
-        val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
-        findNavController(this).navigate(action)
     }
 }
