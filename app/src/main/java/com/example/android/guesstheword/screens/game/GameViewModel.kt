@@ -28,13 +28,16 @@ import androidx.lifecycle.ViewModel
 class GameViewModel : ViewModel() {
 
     companion object {
-        // These represent different important times
+        // These represent different important times in the game, such as game length.
+
         // This is when the game is over
-        const val DONE = 0L
+        private const val DONE = 0L
+
         // This is the number of milliseconds in a second
-        const val ONE_SECOND = 1000L
+        private const val ONE_SECOND = 1000L
+
         // This is the total time of the game
-        const val COUNTDOWN_TIME = 60000L
+        const val COUNTDOWN_TIME = 5000L
     }
 
     // The current word
@@ -66,7 +69,9 @@ class GameViewModel : ViewModel() {
         _score.value = 0
         _eventGameFinish.value = false
 
+        // Creates a timer which triggers the end of the game when it finishes
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
+
             override fun onTick(millisUntilFinished: Long) {
                 _currentTime.value = (millisUntilFinished / ONE_SECOND)
             }
@@ -133,6 +138,7 @@ class GameViewModel : ViewModel() {
         nextWord()
     }
 
+    /** Methods for completed events **/
     fun onGameFinishComplete() {
         _eventGameFinish.value = false
     }

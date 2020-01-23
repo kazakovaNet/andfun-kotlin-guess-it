@@ -52,18 +52,15 @@ class GameFragment : Fragment() {
         // Get the viewmodel
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
-        binding.correctButton.setOnClickListener { viewModel.onCorrect() }
+        // Set the viewmodel for databinding - this allows the bound layout access to all of the
+        // data in the VieWModel
+        binding.gameViewModel = viewModel
 
-        binding.skipButton.setOnClickListener { viewModel.onSkip() }
+        // Specify the current activity as the lifecycle owner of the binding. This is used so that
+        // the binding can observe LiveData updates
+        binding.lifecycleOwner = this
 
         /** Setting up LiveData observation relationship **/
-        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
-
-        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
-            binding.wordText.text = newWord
-        })
 
         viewModel.currentTime.observe(viewLifecycleOwner, Observer { currentTime ->
             binding.timerText.text = DateUtils.formatElapsedTime(currentTime)

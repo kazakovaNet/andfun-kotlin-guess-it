@@ -20,7 +20,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ScoreViewModel(private val finalScore: Int) : ViewModel() {
+/**
+ * ViewModel for the final screen showing the score
+ */
+class ScoreViewModel(finalScore: Int) : ViewModel() {
 
     private val _score = MutableLiveData<Int>()
     val score: LiveData<Int>
